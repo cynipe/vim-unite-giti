@@ -32,14 +32,15 @@ set cpo&vim
 function! giti#diff_tree#changed_files(param)"{{{
   let from = a:param.from
   let to   = a:param.to
+  let opts = a:param.opts
 
   let res = ''
   if from == to
-    let res = giti#system(printf('diff-tree -r --name-only --no-commit-id %s', from))
+    let res = giti#system(printf('diff-tree -r --name-only --no-commit-id %s %s', opts, from))
   elseif from == ''
-    let res = giti#system(printf('diff-tree -r --name-only --no-commit-id %s', to))
+    let res = giti#system(printf('diff-tree -r --name-only --no-commit-id %s %s', opts, to))
   else
-    let res = giti#system(printf('diff-tree -r --name-only --no-commit-id %s..%s', from, to))
+    let res = giti#system(printf('diff-tree -r --name-only --no-commit-id %s %s..%s', opts, from, to))
   endif
 
   return split(res, '\n')

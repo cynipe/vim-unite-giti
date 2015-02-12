@@ -37,15 +37,20 @@ let s:source = {
 function! s:source.gather_candidates(args, context)"{{{
   call unite#print_message('[giti/diff_tree/changed_files]')
   let from = ''
-  let to = ''
+  let to   = ''
+  let opts = ''
   if len(a:args) == 1
     let from = a:args[0]
     let to   = a:args[0]
   elseif len(a:args) == 2
     let from = a:args[0]
     let to   = a:args[1]
+  elseif len(a:args) == 3
+    let from = a:args[0]
+    let to   = a:args[1]
+    let opts = a:args[2]
   endif
-  return map(giti#diff_tree#changed_files({'from' : from, 'to' : to}), '{
+  return map(giti#diff_tree#changed_files({'from' : from, 'to' : to, 'opts' : opts}), '{
 \   "word"   : v:val,
 \   "source" : s:source.name,
 \   "kind"   : "file",
